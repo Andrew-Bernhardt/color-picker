@@ -1,14 +1,39 @@
-import React, { PureComponent, useState } from 'react'
+import React, { PureComponent, useEffect, useState } from 'react'
 
-export default function ColorBlock({color, numVotes}) {
 
-  // Swap this with the api call for how many votes it has
-  const [votes,setVotes] = useState(numVotes);
+interface ColorBlockProps {
+  id: number;
+  onClick: (id: number) => void;
+  updateColor: (id: number, color: string) => void;
+}
+
+const ColorBlock: React.FC<ColorBlockProps> = ({ id, onClick, updateColor }) => {
+  const [clickCount, setClickCount] = useState(0);
+  const [color, setColor] = useState<string>(generateRandomColor());
+
+  function generateRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let newColor = '#';
+    for (let i = 0; i < 6; i++) {
+      newColor += letters[Math.floor(Math.random() * 16)];
+    }
+    return newColor;
+  }
+
+  const handleClick = (): void => {
+    setClickCount(clickCount + 1);
+    onClick(id); // Pass the button ID to the parent component
+  };
+
+  useEffect(() => {
+    updateColor(id, color);
+  }, [color, id, updateColor]);
 
   return (
-    <div className='color-body' style={{backgroundColor: color}} onClick={() => setVotes(votes + 1)}>
-      {votes} <br/>
-      {color}
-    </div>
-  )
-}
+    <button onClick={handleClick} style={{ backgroundColor: color }}>
+      Block {id} Clicked: {clickCount} times
+    </button>
+  );
+};
+
+export default ColorBlock;

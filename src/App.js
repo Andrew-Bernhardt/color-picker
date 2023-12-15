@@ -1,29 +1,48 @@
-import logo from './logo.svg';
-import ColorBlock from './ColorBlock.tsx';
-import './App.css';
+import React, { useState } from 'react';
+import Button from './ColorBlock.tsx';
 
-function App() {
+const App = () => {
+  const [clicks, setClicks] = useState(new Array(10).fill({ count: 0, color: '' }));
 
-  // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
-  // We can make 1 server call only here.
-  const colorBlocks = [];
-  for (let i=0; i < 100; i++) {
-    const randomColor = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+  const handleButtonClick = (id) => {
+    setClicks((prevClicks) => {
+      const newClicks = [...prevClicks];
+      newClicks[id - 1].count++; // Increment the count of the clicked button
+      return newClicks;
+    });
+  };
 
-    colorBlocks.push(<ColorBlock color={randomColor} numVotes={0} />);
-  }
+  const updateColor = (id, color) => {
+    setClicks((prevClicks) => {
+      const newClicks = [...prevClicks];
+      newClicks[id - 1].color = color; // Update the color of the button
+      return newClicks;
+    });
+  };
 
   return (
-    <div className="app-container-grid">
-      <div className="color-block-container">
-        {colorBlocks}
+    <div>
+      <h1>Click Counter App</h1>
+      <div>
+        {clicks.map((button, index) => (
+          <Button
+            key={index + 1}
+            id={index + 1}
+            onClick={handleButtonClick}
+            updateColor={updateColor}
+          />
+        ))}
       </div>
-      <div className="scoreboard">
-        <h3>Leaderboard</h3>
-        {/**Pull Rankings in from the database */}
-      </div>
+      <h2>Leaderboard</h2>
+      <ul>
+        {clicks.map((button, index) => (
+          <li key={index + 1}>
+            Button {index + 1}: Clicks - {button.count} times, Color - {button.color}
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default App;
