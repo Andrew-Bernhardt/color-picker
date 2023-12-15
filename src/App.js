@@ -19,6 +19,7 @@ function App() {
         {colorBlocks}
       </div>
       <div className="scoreboard">
+        <h3>Leaderboard</h3>
         {/**Pull Rankings in from the database */}
       </div>
     </div>
