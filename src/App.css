@@ -1,20 +1,40 @@
-.App {
+:root {
+  --lg-colorblock-size: 100px;
+  --md-colorblock-size: 75px;
+  --sm-colorblock-size: 50px;
+}
+
+.app-container {
+  display: grid;
+}
+
+.color-block-container {
   text-align: center;
   display: flex;
   flex-wrap: wrap;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
 
 .color-body {
   margin: 5px;
   border: 1px solid grey;
   border-radius: 20%;
-  width: 100px;
-  height: 100px;
+  width: var(--lg-colorblock-size);
+  height: var(--lg-colorblock-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.scoreboard {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 200px;
+  border: 1px solid pink;
+  background: white;
+  padding: 5px;
 }
 
 
