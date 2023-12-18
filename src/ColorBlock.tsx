@@ -1,12 +1,19 @@
 import React, { PureComponent, useState } from 'react'
 
-export default function ColorBlock({color, numVotes}) {
+
+interface ColorBlockProps {
+  id: number;
+  onClick: (id: number) => void;
+  updateColor: (id: number, color: string) => void;
+}
+
+export default function ColorBlock({color, numVotes} : {color:string, numVotes: number}) {
 
   // Swap this with the api call for how many votes it has
   const [votes,setVotes] = useState(numVotes);
 
   return (
-    <div className='color-body' style={{backgroundColor: color}} onClick={() => setVotes(votes + 1)}>
+    <div className='color-body' style={{backgroundColor: color}} onClick={votes + 1}>
       {votes} <br/>
       {color}
     </div>
