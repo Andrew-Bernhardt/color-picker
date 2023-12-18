@@ -2,14 +2,13 @@ import React, { PureComponent, useEffect, useState } from 'react'
 
 
 interface ColorBlockProps {
-  id: number;
+  color: string;
   onClick: (id: number) => void;
-  updateColor: (id: number, color: string) => void;
 }
 
-const ColorBlock: React.FC<ColorBlockProps> = ({ id, onClick, updateColor }) => {
+const ColorBlock: React.FC<ColorBlockProps> = ({ color, onClick }) => {
   const [clickCount, setClickCount] = useState(0);
-  const [color, setColor] = useState<string>(generateRandomColor());
+  const [color, setColor] = useState(color);
 
   function generateRandomColor(): string {
     const letters = '0123456789ABCDEF';
@@ -25,9 +24,6 @@ const ColorBlock: React.FC<ColorBlockProps> = ({ id, onClick, updateColor }) => 
     onClick(id); // Pass the button ID to the parent component
   };
 
-  useEffect(() => {
-    updateColor(id, color);
-  }, [color, id, updateColor]);
 
   return (
     <button onClick={handleClick} style={{ backgroundColor: color }}>

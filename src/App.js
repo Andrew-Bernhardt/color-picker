@@ -4,14 +4,7 @@ import './App.css';
 import React, { useState } from 'react';
 
 function initialize () {
-  const initialBlocks = [];
-  for (let i=0; i < 100; i++) {
-    const randomColor = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
-    const obj = {color: randomColor, votes: 0} 
-    initialBlocks.push( obj )
-    console.log(initialBlocks[i])
-  }
-  return initialBlocks
+  return new Array(100).fill({ color: '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes: 0 });
 }
 
 function App() {
@@ -19,7 +12,7 @@ function App() {
   // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
   // We can make 1 server call only here.
  
-  const [colorBlocks,setColorBlocks] = useState(new Array(100).fill({ color: '', votes: 0 }));
+  const [colorBlocks,setColorBlocks] = useState(initialize);
   
   const handleButtonClick = (id) => {
     setColorBlocks((prevClicks) => {
@@ -47,7 +40,6 @@ function App() {
                 color={cb.color} 
                 numVotes={cb.votes}
                 onClick = {handleButtonClick}
-                updateColor={updateColor}
               />
             )
           })
