@@ -1,11 +1,28 @@
+import logo from './logo.svg';
+import ColorBlock from './ColorBlock.tsx';
+import './App.css';
 import React, { useState } from 'react';
-import Button from './ColorBlock.tsx';
 
-const App = () => {
-  const [clicks, setClicks] = useState(new Array(10).fill({ count: 0, color: '' }));
+function initialize () {
+  const initialBlocks = [];
+  for (let i=0; i < 100; i++) {
+    const randomColor = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+    const obj = {color: randomColor, votes: 0} 
+    initialBlocks.push( obj )
+    console.log(initialBlocks[i])
+  }
+  return initialBlocks
+}
 
+function App() {
+
+  // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
+  // We can make 1 server call only here.
+ 
+  const [colorBlocks,setColorBlocks] = useState(new Array(100).fill({ color: '', votes: 0 }));
+  
   const handleButtonClick = (id) => {
-    setClicks((prevClicks) => {
+    setColorBlocks((prevClicks) => {
       const newClicks = [...prevClicks];
       newClicks[id - 1].count++; // Increment the count of the clicked button
       return newClicks;
@@ -13,7 +30,7 @@ const App = () => {
   };
 
   const updateColor = (id, color) => {
-    setClicks((prevClicks) => {
+    setColorBlocks((prevClicks) => {
       const newClicks = [...prevClicks];
       newClicks[id - 1].color = color; // Update the color of the button
       return newClicks;
@@ -21,28 +38,36 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Click Counter App</h1>
-      <div>
-        {clicks.map((button, index) => (
-          <Button
-            key={index + 1}
-            id={index + 1}
-            onClick={handleButtonClick}
-            updateColor={updateColor}
-          />
-        ))}
+    <div className="app-container-grid">
+      <div className="color-block-container">
+        {
+          colorBlocks.map((cb) => {
+            return (
+              <ColorBlock 
+                color={cb.color} 
+                numVotes={cb.votes}
+                onClick = {handleButtonClick}
+                updateColor={updateColor}
+              />
+            )
+          })
+        }
       </div>
-      <h2>Leaderboard</h2>
-      <ul>
-        {clicks.map((button, index) => (
-          <li key={index + 1}>
-            Button {index + 1}: Clicks - {button.count} times, Color - {button.color}
-          </li>
-        ))}
-      </ul>
+      <div className="scoreboard">
+        <h3>Leaderboard</h3>
+        <ol>
+          {
+            colorBlocks.map((cb)=> {
+              return (
+                <li>{cb.votes}</li>
+              )
+            })
+          }
+        </ol>
+        
+      </div>
     </div>
   );
-};
+}
 
 export default App;
