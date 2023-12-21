@@ -23,21 +23,17 @@ export default function DashBoard( {numBlocks=100}) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
     // We can make 1 server call only here.
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocks(numBlocks));
+    // Ideally run this every 10 seconds or so...
     const [colorBlocks, setColorBlocks] = useState(getColorBlocks(numBlocks));
 
-    function buttonClick(color: string) {
+    async function buttonClick(color: string) {
         const temp_state = [...colorBlocks];
         const pos = temp_state.findIndex((x) => x.color===color );
         temp_state[pos].votes = temp_state[pos].votes + 1;
         setColorBlocks(temp_state); 
-        
+        await updateGlobalColorBlocks(temp_state);
         
     }
-
-    useEffect(() => {
-        const id = setInterval( () => setAllTimeColorBlocks(colorBlocks), 2000);
-        return () => clearInterval(id);
-     }, []);
 
     // setInterval( function() { setAllTimeColorBlocks(colorBlocks) }, 5000);
 
@@ -47,13 +43,13 @@ export default function DashBoard( {numBlocks=100}) {
     //     }, 2000);
     // }
 
-    // async function updateGlobalColorBlocks(temp_state: IColorBlock[]) {
-    //     return new Promise(() => {
-    //         setInterval(() => {
-    //             setAllTimeColorBlocks(temp_state);
-    //         }, 2000);
-    //     })
-    // }
+    function updateGlobalColorBlocks(temp_state: IColorBlock[]) {
+        return new Promise(() => {
+            setInterval(() => {
+                setAllTimeColorBlocks(temp_state);
+            }, 2000);
+        })
+    }
 
     return (
         <div className="app-container-flex">
