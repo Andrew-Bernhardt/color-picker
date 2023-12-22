@@ -1,8 +1,9 @@
 import React from 'react'
 
 export default function LeaderBoard( {colorBlocks, children} ) {
-  const colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
+  let colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
   colorBlocksCopy.sort((a, b) => (a.votes > b.votes ? -1: 1))
+  colorBlocksCopy = colorBlocksCopy.slice(0,15);
 
   return (
     <div className="leaderboard-flex">

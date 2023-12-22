@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ColorBlock from './ColorBlock.tsx';
 import LeaderBoard from './LeaderBoard.tsx';
+import { APIURL } from './GlobalVariables.js'
+
 // import IColorBlock from './model/ColorBlock.ts';
 
 interface IColorBlock {
@@ -9,7 +11,7 @@ interface IColorBlock {
 }
 
 let lastColor = "";
-function getColorBlocks (numBlocks) {
+function getColorBlocks (numBlocks: number) {
     const retColorBlocks: IColorBlock[] = [];
     for(let i=0;i<numBlocks;i++) {
         const colorObj =  { color: '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0 }
@@ -19,12 +21,27 @@ function getColorBlocks (numBlocks) {
     return retColorBlocks;
 }
 
+
+
 export default function DashBoard( {numBlocks=100}) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
     // We can make 1 server call only here.
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocks(numBlocks));
+    // const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocksFromAPI);
     // Ideally run this every 10 seconds or so...
     const [colorBlocks, setColorBlocks] = useState(getColorBlocks(numBlocks));
+    const [testState, setTestState] = useState();
+
+    function getColorBlocksFromAPI() {
+        fetch(APIURL + '')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setTestState(data)
+        })
+    }
+
+    console.log(testState)
 
     async function buttonClick(color: string) {
         const temp_state = [...colorBlocks];

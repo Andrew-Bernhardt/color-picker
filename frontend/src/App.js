@@ -6,7 +6,7 @@ import DashBoard from './DashBoard.tsx';
 
 function App() {
   return (
-    <DashBoard numBlocks={100}/>
+    <DashBoard/>
   );
 }
 
