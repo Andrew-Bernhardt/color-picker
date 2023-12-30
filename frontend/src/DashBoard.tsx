@@ -26,17 +26,17 @@ function getColorBlocks (numBlocks: number) {
 export default function DashBoard( {numBlocks=100}) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
     // We can make 1 server call only here.
-    const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocks(numBlocks));
-    // const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocksFromAPI);
+    // const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocks(numBlocks));
+    const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(getColorBlocksFromAPI);
     // Ideally run this every 10 seconds or so...
     const [colorBlocks, setColorBlocks] = useState(getColorBlocks(numBlocks));
     const [testState, setTestState] = useState();
 
-    function getColorBlocksFromAPI() {
+    async function getColorBlocksFromAPI() {
         fetch(APIURL + '')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            console.log(data.json());
             setTestState(data)
         })
     }
