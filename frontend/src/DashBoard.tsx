@@ -5,15 +5,24 @@ import { APIURL } from './GlobalVariables.js'
 
 // import IColorBlock from './model/ColorBlock.ts';
 
-interface IColorBlock {
+export interface IColorBlock {
     _id: number
     color: string
     votes: number
     __v: string
 }
 
-let lastColor = "";
+const preLoad: Array<IColorBlock> = [{
+    _id: 0,
+    color: '',
+    votes: 0,
+    __v: ''
+}]
+
+
+
 function getColorBlocks (numBlocks: number) {
+    let lastColor = "";
     const retColorBlocks: IColorBlock[] = [];
     for(let i=0;i<numBlocks;i++) {
         const colorObj =  { _id: i, color: '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0, __v: ''}
@@ -34,17 +43,23 @@ export default function DashBoard( {numBlocks=100}) {
     
     // API Calls
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(null);
-    const [colorBlocks, setColorBlocks] = useState([[]]);
+    const [colorBlocks, setColorBlocks] = useState(preLoad);
 
     useEffect(() => {
         console.log("calling api")
-        fetch(APIURL + '')
+        fetch(APIURL + '/')
         .then(response => response.json())
         .then(data => {
-            console.log("RESPONSE" + data.json());
-            setColorBlocks(data)
-        })
-    })
+                console.log("DATA" + data);
+                setColorBlocks(data)
+            }
+        )
+        .catch(
+            (error) => {
+                console.warn(error);
+            }
+        )
+    }, []);
         
 
     async function buttonClick(color: string) {
@@ -52,7 +67,7 @@ export default function DashBoard( {numBlocks=100}) {
         const pos = temp_state.findIndex((x) => x.color===color );
         temp_state[pos].votes = temp_state[pos].votes + 1;
         setColorBlocks(temp_state); 
-        await updateGlobalColorBlocks(temp_state);
+        // await updateGlobalColorBlocks(temp_state);
         
     }
 
@@ -76,11 +91,11 @@ export default function DashBoard( {numBlocks=100}) {
     return (
         <div className="app-container-flex">
             <div className="color-block-container">
-                {/* {
+                {
                     colorBlocks.map((cb) => 
                         <ColorBlock key={cb.color} color={cb.color} votes={cb.votes} onClick={buttonClick}/>
                     )
-                } */}
+                }
             </div>
             <LeaderBoard colorBlocks={colorBlocks}>Current</LeaderBoard>
             {/* <LeaderBoard colorBlocks={allTimeColorBlocks}>All Time</LeaderBoard> */}
