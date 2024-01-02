@@ -1,8 +1,7 @@
 import React from 'react'
 
 export default function LeaderBoard( {colorBlocks, children} ) {
-  console.log("Reloading Leaderboard")
-  console.log(colorBlocks)
+  console.log("Reloading Leaderboard\n" + colorBlocks)
   var colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
   colorBlocksCopy.sort((a, b) => (a.votes > b.votes ? -1: 1))
   colorBlocksCopy = colorBlocksCopy.slice(0,15);

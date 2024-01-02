@@ -37,7 +37,7 @@ function postMultipleColors(numColors: number=100): void {
         postSingleColor();
     }
 }
-postMultipleColors(1000)
+postMultipleColors(100)
 
 
 
