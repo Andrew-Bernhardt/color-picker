@@ -1,7 +1,9 @@
 import React from 'react'
 
 export default function LeaderBoard( {colorBlocks, children} ) {
-  let colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
+  console.log(colorBlocks)
+  var colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
+  console.log("COPY: "+colorBlocksCopy[0])
   colorBlocksCopy.sort((a, b) => (a.votes > b.votes ? -1: 1))
   colorBlocksCopy = colorBlocksCopy.slice(0,15);
 
