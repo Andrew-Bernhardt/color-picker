@@ -43,7 +43,7 @@ export default function DashBoard( {numBlocks=100}) {
 
     useEffect(() => {
         console.log("calling api")
-        fetch(APIURL + '/number/100')
+        fetch(APIURL + '/number/10')
         .then(response => response.json())
         .then(data => 
             setCurrentColorBlocks(data)
@@ -56,11 +56,13 @@ export default function DashBoard( {numBlocks=100}) {
     }, []);
         
 
-    async function buttonClick(color: string) {
+    async function buttonClick(color: string, cb: IColorBlock) {
         const temp_state = [...currentColorBlocks];
         const pos = temp_state.findIndex((x) => x.color===color );
         temp_state[pos].votes = temp_state[pos].votes + 1;
-        setCurrentColorBlocks(temp_state); 
+        setCurrentColorBlocks(temp_state);
+        
+        // Update that color!
         // await updateGlobalColorBlocks(temp_state);
         
     }
@@ -87,7 +89,7 @@ export default function DashBoard( {numBlocks=100}) {
             <div className="color-block-container">
                 {
                     currentColorBlocks.map((cb) => 
-                        <ColorBlock key={cb.color} color={cb.color} votes={cb.votes} onClick={buttonClick}/>
+                        <ColorBlock key={cb.color} _id={cb._id} color={cb.color} votes={cb.votes} __v={cb.__v} colorBlock={cb} onClick={buttonClick}/>
                     )
                 }
             </div>
