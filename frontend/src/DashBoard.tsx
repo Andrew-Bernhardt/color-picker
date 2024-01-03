@@ -43,7 +43,7 @@ export default function DashBoard( {numBlocks=100}) {
 
     useEffect(() => {
         console.log("calling api")
-        fetch(APIURL + '/number/10')
+        fetch(APIURL + '/number/first/20')
         .then(response => response.json())
         .then(data => 
             setCurrentColorBlocks(data)
@@ -62,7 +62,7 @@ export default function DashBoard( {numBlocks=100}) {
         temp_state[pos].votes = temp_state[pos].votes + 1;
         setCurrentColorBlocks(temp_state);
         
-        // Update that color!
+        // Update that singular color globally by PATCH
         // await updateGlobalColorBlocks(temp_state);
         
     }
