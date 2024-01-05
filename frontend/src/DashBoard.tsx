@@ -23,9 +23,9 @@ function getColorBlocks (numBlocks: number) {
     let lastColor = "";
     const retColorBlocks: IColorBlock[] = [];
     for(let i=0;i<numBlocks;i++) {
-        const colorObj =  { _id: i, color: '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0, __v: ''}
+        const colorObj =  { _id: i, color: (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0, __v: ''}
         retColorBlocks.push(colorObj);
-        lastColor = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+        lastColor = (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
     }
     return retColorBlocks;
 }
@@ -43,7 +43,7 @@ export default function DashBoard( {numBlocks=100}) {
 
     useEffect(() => {
         console.log("calling api")
-        fetch(APIURL + '/number/first/20')
+        fetch(APIURL + '/number/first/100')
         .then(response => response.json())
         .then(data => 
             setCurrentColorBlocks(data)
@@ -61,7 +61,13 @@ export default function DashBoard( {numBlocks=100}) {
         const pos = temp_state.findIndex((x) => x.color===color );
         temp_state[pos].votes = temp_state[pos].votes + 1;
         setCurrentColorBlocks(temp_state);
-        
+        fetch(APIURL + '/color/increment/'+cb.color , {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then(response => response.json())
         // Update that singular color globally by PATCH
         // await updateGlobalColorBlocks(temp_state);
         

@@ -8,19 +8,20 @@ function getArrayOfColors (numBlocks: number) {
     let lastColor = "";
     const retColorBlocks: IColorBlock[] = [];
     for(let i=0;i<numBlocks;i++) {
-        const colorObj =  {color: '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0 }
+        const colorObj =  {color: (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0 }
         retColorBlocks.push(colorObj);
-        lastColor = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+        lastColor = (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
     }
     return retColorBlocks;
 }
 
 function getSingleColor() {
-    const colorObj =  { color: '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0 }
+    const colorObj =  { color: (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0 }
     console.log("HERE IS THE COLOR" + colorObj)
     return colorObj;
 }
 
+// This method is DEPRECIATED
 function postSingleColor() {
     fetch(APIURL + '/', {
         method: "POST",
@@ -37,8 +38,20 @@ function postMultipleColors(numColors: number=100): void {
         postSingleColor();
     }
 }
-postMultipleColors(100)
+// postMultipleColors(100)
 
-
+function postMultipleColorsCleaner(numColors: number=100) {
+    let color: string = '';
+    for(let i=0;i<numColors;i++) {
+        color = (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+        fetch(APIURL + '/color/'+color, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'}, 
+        }).then(res => {
+            console.log(res);
+        });
+    }
+}
+postMultipleColorsCleaner(100)
 
 

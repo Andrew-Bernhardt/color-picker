@@ -13,8 +13,8 @@ export default function LeaderBoard( {colorBlocks, children} ) {
       <ul> 
         {
           colorBlocksCopy.map((cb)=> 
-            <li key={cb.color} className="leaderboard-item" style={{backgroundColor: cb.color}}>
-              {cb.color} : {cb.votes}
+            <li key={cb.color} className="leaderboard-item" style={{backgroundColor: "#"+cb.color}}>
+              #{cb.color} : {cb.votes}
             </li>
           )
         }

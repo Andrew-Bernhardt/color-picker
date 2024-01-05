@@ -13,6 +13,7 @@
 }
 
 .color-block-container {
+  /* flex-basis: 1800px; */
   display: flex;
   flex-wrap: wrap;
   text-align: center;
@@ -48,10 +49,12 @@
   position: sticky;
   top: 0;
   height: 100%;
-  width: 200px;
+  /* flex-basis: auto; */
+  /* width: 300px; */
   border: 1px solid pink;
   background: white;
   padding: 5px;
+  margin-left: 0;
 }
 
 .leaderboard h2, .leaderboard-flex h2 {
