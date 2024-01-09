@@ -104,6 +104,7 @@ body {
 
 .flame-animation {
 
+
 	width: 200px;
 	margin: auto 4px -10px 4px;
 	display: flex;
@@ -129,21 +130,6 @@ body {
 	}
 }
 
-// @for $i from 1 to 30 {
-//     .flame:nth-child(#{$i}) {
-//         animation-duration: #{random(2000)/1000 + 2}s;
-//         animation-delay: #{random(1000)/1000 + 1}s;
-//     }
-// }
-// @keyframes move {
-//     0% {
-//         transform: translate(0px, 0px);
-//     }
-//     100% {
-//         transform: translate(0px, -70px);
-//     }
-// }
-
 @for $i from 0 through 200 { 
     .flame:nth-child(#{$i}) {
 		$width: 20 + random(10) + px;
@@ -164,7 +150,20 @@ body {
     }
 }
 
-
+// @for $i from 1 to 30 {
+//     .flame:nth-child(#{$i}) {
+//         animation-duration: #{random(2000)/1000 + 2}s;
+//         animation-delay: #{random(1000)/1000 + 1}s;
+//     }
+// }
+// @keyframes move {
+//     0% {
+//         transform: translate(0px, 0px);
+//     }
+//     100% {
+//         transform: translate(0px, -70px);
+//     }
+// }
 
 .leaderboard-item {
 	padding: 0px 4px;
