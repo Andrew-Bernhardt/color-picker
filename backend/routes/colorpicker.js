@@ -29,6 +29,7 @@ router.get('/number/first/:getNumber', async (req, res) => {
 router.get('/number/random/:getNumber', async (req, res) => {
     try {
         const colorBlocks = (await ColorBlock.find()).slice(0,req.params.getNumber)
+        console.log("Generating Random! Length: " + colorBlocks.length)
         res.json(colorBlocks)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -115,6 +116,7 @@ router.patch('/color/increment/:color', async (req, res) => {
     } else {
         await ColorBlock.findOneAndUpdate({color: req.params.color}, {$inc : {votes: 1}})
         res.json({message: "Color " + req.params.color + " incremented by 1"})
+        console.log("Color " + req.params.color + " incremented by 1")
     }
 
 })
