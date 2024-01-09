@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import ColorBlock from './ColorBlock.tsx';
 import LeaderBoard from './LeaderBoard.tsx';
 import { APIURL } from './GlobalVariables.js'
+import Navbar from './Navbar.tsx';
+import { useParams } from 'react-router-dom';
 
 // import IColorBlock from './model/ColorBlock.ts';
 
@@ -30,7 +32,7 @@ function getColorBlocks (numBlocks: number) {
     return retColorBlocks;
 }
 
-export default function DashBoard( {numBlocks=100}) {
+export default function DashBoard( {numBlocks='100', randomized='random'}) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
     // We can make 1 server call only here.
     // Static Calls
@@ -40,10 +42,15 @@ export default function DashBoard( {numBlocks=100}) {
     // API Calls
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(null);
     const [currentColorBlocks, setCurrentColorBlocks] = useState(preLoad);
+    const params = useParams();
+    console.log("params.numBlocks: " + params.numBlocks)
+    if(params.numBlocks!=null) {
+        numBlocks = params.numBlocks;
+    }
 
     useEffect(() => {
         console.log("calling api")
-        fetch(APIURL + '/number/first/100')
+        fetch(APIURL + `/number/${randomized}/${numBlocks}`)
         .then(response => response.json())
         .then(data => 
             setCurrentColorBlocks(data)
@@ -91,6 +98,8 @@ export default function DashBoard( {numBlocks=100}) {
     // }
 
     return (
+        <>
+        <Navbar />
         <div className="app-container-flex">
             <div className="color-block-container">
                 {
@@ -102,5 +111,6 @@ export default function DashBoard( {numBlocks=100}) {
             <LeaderBoard colorBlocks={currentColorBlocks}>Current</LeaderBoard>
             {/* <LeaderBoard colorBlocks={allTimeColorBlocks}>All Time</LeaderBoard> */}
         </div>
+        </>
     )
 }

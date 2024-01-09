@@ -6,10 +6,16 @@ export default function LeaderBoard( {colorBlocks, children} ) {
   var colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
   colorBlocksCopy.sort((a, b) => (a.votes > b.votes ? -1: 1))
   colorBlocksCopy = colorBlocksCopy.slice(0,15);
+  const topColor = '#'+colorBlocksCopy[0].color
 
+  const flames = Array.from(Array(10).keys())
+  
   return (
     <div className="leaderboard-flex">
       <h2>{children} LeaderBoard</h2>
+      <div className="flame-animation">
+        {flames.map((flame, i) => <div className="flame" style={{backgroundColor: topColor}}></div>)}
+      </div>
       <ul> 
         {
           colorBlocksCopy.map((cb)=> 
