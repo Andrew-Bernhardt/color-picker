@@ -59,26 +59,6 @@ body {
 	align-items: center;
 	user-select: none;
 }
-// .leaderboard {
-// 	position: fixed;
-// 	top: 0;
-// 	right: 0;
-// 	height: 100%;
-// 	width: 300px;
-// 	border: 1px solid pink;
-// 	background: white;
-// 	padding: 5px;
-// 	h2 {
-// 		text-align: center;
-// 		margin: auto;
-// 	}
-// 	ul {
-// 		margin: 5px;
-// 		padding: 0px;
-// 		font-size: 1.5em;
-// 		border-radius: 10px;
-// 	}
-// }
 .leaderboard-flex {
 	position: -webkit-sticky;
 	position: sticky;
@@ -92,7 +72,7 @@ body {
 	h2 {
 		text-align: center;
 		margin: auto;
-		z-index: 1;
+		z-index: 100;
 	}
 	ul {
 		margin: 5px;
@@ -103,72 +83,60 @@ body {
 }
 
 .flame-animation {
-
-	width: 200px;
-	margin: auto 4px -10px 4px;
+	margin: auto;
 	display: flex;
 	flex-wrap: nowrap;
 	gap: -3px;
-	$flame: 15px;
+	filter: blur(0px);
+	$flame: 5px;
+	z-index: 1;
+	&:before {
+        content: "";
+        position: absolute;
+        top: -0px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        backdrop-filter: blur(5px);
+    }
 	.flame {
+		position: absolute;
 		border-radius: 50%;
-		opacity: 70%;
-		background-color: black;
-		flex-shrink: 0;
-		width: $flame;
-		height: $flame;
-		animation: move 3s infinite 1s linear;
-	}
-	$flame: 15px;
-	li {
-		width: $flame;
-		height: $flame;
-		flex-shrink: 1;
-		border-radius: 50%;
-		animation: move 3s infinite 1s linear;
 	}
 }
 
-// @for $i from 1 to 30 {
-//     .flame:nth-child(#{$i}) {
-//         animation-duration: #{random(2000)/1000 + 2}s;
-//         animation-delay: #{random(1000)/1000 + 1}s;
-//     }
-// }
-// @keyframes move {
-//     0% {
-//         transform: translate(0px, 0px);
-//     }
-//     100% {
-//         transform: translate(0px, -70px);
-//     }
-// }
-
-@for $i from 0 through 200 { 
+@for $i from 0 through 500 { 
     .flame:nth-child(#{$i}) {
-		$width: 20 + random(10) + px;
-        left: #{(random(80)) + '%'};
-        top: #{(30 + random(100))}px;
+        $width: 10 + random(10) + px;
+        left: #{(random(92)) + '%'};
+        top: #{(19 + random(1))}px; //this has the option to change
         width: $width;
         height: $width;
-        animation: moveToTop #{(random(2500) + 1500) / 1000}s ease-in-out -#{random(5000)/1000}s infinite;
+        animation: moveToTop #{(random(3000) + 1500) / 1000}s ease-in-out -#{random(5000)/1500}s infinite;
     }
 }
+
 @keyframes moveToTop {
-    90% {
+    80% {
         opacity: 1;
     }
     100% {
-        opacity: .08;
-        transform: translate(-50%, -10px) scale(.3);
+        opacity: .1;
+        transform: translate(-0px, -28px) scale(.40);
     }
 }
 
-
-
+.top-block {
+	height: 5px;
+	border-top-right-radius: 50%;
+	border-top-left-radius: 50%;
+	margin-top: 30px;
+}
 .leaderboard-item {
 	padding: 0px 4px;
 	list-style: none;
 	width: 100%;
 	text-wrap: nowrap;
 }
+
