@@ -60,7 +60,7 @@ export default function DashBoard( {numBlocks='100', randomized='random'}) {
                 console.error(error);
             }
         )
-    }, []);
+    }, [params.numBlocks]);
         
 
     async function buttonClick(color: string, cb: IColorBlock) {
