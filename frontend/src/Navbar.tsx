@@ -6,7 +6,7 @@ export default function
 () {
   return (
     <div className='nav'>
-      <h3><Link to="/ordered/23">Ordered</Link></h3>
+      <h3><Link to="/ordered">Ordered</Link></h3>
       <h1><Link to="/">Color Picker</Link></h1>
       <h3><Link to="/random">Randomized</Link></h3>
     </div>
