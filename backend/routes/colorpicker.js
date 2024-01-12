@@ -28,10 +28,36 @@ router.get('/number/first/:getNumber', async (req, res) => {
 // Get Random x Colors
 router.get('/number/random/:getNumber', async (req, res) => {
     try {
-        const colorBlocks = (await ColorBlock.find()).slice(0,req.params.getNumber)
-        console.log("Generating Random! Length: " + colorBlocks.length)
-        res.json(colorBlocks)
+        const colorBlocks = (await ColorBlock.find())
+        const colorBlocksRandom = JSON.parse(JSON.stringify(colorBlocks))
+        console.log("ColorBlocksRandom: "+colorBlocksRandom)
+
+        console.log("Generating Random! Random Length: " + req.params.getNumber)
+
+        let m = parseInt(req.params.getNumber)
+        console.log(typeof m)
+        console.log("going in...")
+
+        let l = colorBlocksRandom.length;
+
+        while(l && m>=0 ) {
+            let i = Math.floor(Math.random() * m--)
+            l--;
+
+            let t = colorBlocksRandom[m]
+            colorBlocksRandom[m] = colorBlocksRandom[i]
+            colorBlocksRandom[i] = t
+        }
+        // console.log("length of colorBlocksRandom: " + colorBlocksRandom[5])
+        let t = colorBlocksRandom[2];
+        console.log("2 Block: " + colorBlocksRandom[2].color)
+        console.log("t: " + t);
+        colorBlocksRandom[2] = colorBlocksRandom[3];
+        colorBlocksRandom[3] = t;
+        console.log("Finished Getting Random Blocks " + colorBlocksRandom)
+        res.json(colorBlocksRandom)
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message })
     }
 })
