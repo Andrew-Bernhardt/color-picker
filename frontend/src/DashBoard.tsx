@@ -80,23 +80,6 @@ export default function DashBoard( {numBlocks='100', randomized='random'}) {
         
     }
 
-    // setInterval( function() { setAllTimeColorBlocks(colorBlocks) }, 5000);
-
-    // Ideally run this every 10 seconds or so...
-    // function delayUpdate(temp_state: IColorBlock[]) {
-    //     setInterval(() => {
-    //         setAllTimeColorBlocks(temp_state);
-    //     }, 2000);
-    // }
-
-    // async function updateGlobalColorBlocks(temp_state: IColorBlock[]) {
-    //     return new Promise(() => {
-    //         setInterval(() => {
-    //             setAllTimeColorBlocks(temp_state);
-    //         }, 2000);
-    //     })
-    // }
-
     return (
         <>
         <Navbar />
