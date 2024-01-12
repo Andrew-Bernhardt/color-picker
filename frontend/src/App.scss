@@ -118,14 +118,14 @@ body {
 	}
 }
 
-@for $i from 0 through 500 { 
+@for $i from 0 through 100 { 
     .flame:nth-child(#{$i}) {
         $width: 10 + random(10) + px;
         left: #{(random(92)) + '%'};
         top: #{(19 + random(1))}px; //this has the option to change
         width: $width;
         height: $width;
-        animation: moveToTop #{(random(3000) + 1500) / 1000}s ease-in-out -#{random(5000)/1500}s infinite;
+        animation: moveToTop #{calc((random(3000) + 1500) / 1000)}s ease-in-out -#{calc(random(5000)/1500)}s infinite;
     }
 }
 
