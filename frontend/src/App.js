@@ -4,7 +4,7 @@ import './App.css';
 import React, { useState } from 'react';
 import DashBoard from './DashBoard.tsx';
 import Navbar from './Navbar.tsx';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Redirect, Navigate } from 'react-router-dom';
 
 function App() {
   return ( 
@@ -19,9 +19,8 @@ function App() {
         <Route path='/first' element={ <DashBoard randomOrFirst={'first'}/> }/>
         <Route path='/bottom-colors/:numBlocks' element={ <DashBoard randomOrFirst='bottom-colors'/> }/>
         <Route path='/bottom-colors' element={ <DashBoard randomOrFirst='bottom-colors' numBlocks='all'/> }/>
-        
-        <Route path='' />
       </Routes>
+      <Navigate to="/" />
     </BrowserRouter>
   );
 }
