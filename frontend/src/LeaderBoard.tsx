@@ -15,7 +15,7 @@ export default function LeaderBoard( {colorBlocks, children} ) {
       <h2>{children} LeaderBoard</h2>
       <div className="flame-animation">
         {flames.map((flame, i) => 
-          <div className="flame" style={{backgroundColor: topColor}}></div>)
+          <div key={i} className="flame" style={{backgroundColor: topColor}}></div>)
         }
       </div>
       <ul> 

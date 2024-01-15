@@ -12,9 +12,10 @@ function App() {
       <Routes>
         <Route index element={ <DashBoard/> }/>
         <Route path='/random/:numBlocks' element={ <DashBoard/> }/>
-        <Route path='/random' element={ <DashBoard /> }/>
-        <Route path='/ordered/:numBlocks' element={ <DashBoard randomized={'first'}/> }/>
-        <Route path='/ordered' element={ <DashBoard randomized={'first'}/> }/>
+        <Route path='/random' element={ <DashBoard numBlocks='100'/> }/>
+        <Route path='/first/:numBlocks' element={ <DashBoard randomOrFirst={'first'}/> }/>
+        <Route path='/first' element={ <DashBoard randomOrFirst={'first'}/> }/>
+        
         <Route path='' />
       </Routes>
     </BrowserRouter>

@@ -28,10 +28,40 @@ router.get('/number/first/:getNumber', async (req, res) => {
 // Get Random x Colors
 router.get('/number/random/:getNumber', async (req, res) => {
     try {
-        const colorBlocks = (await ColorBlock.find()).slice(0,req.params.getNumber)
-        console.log("Generating Random! Length: " + colorBlocks.length)
-        res.json(colorBlocks)
+        // Idea behind this method:
+        // We want to generate a random 
+        const colorBlocks = (await ColorBlock.find())
+        let colorBlocksRandom = JSON.parse(JSON.stringify(colorBlocks))
+        console.log("ColorBlocksRandom: "+colorBlocksRandom)
+
+        console.log("Generating Random! Random Length: " + req.params.getNumber)
+
+        let m = parseInt(req.params.getNumber)
+        console.log(typeof m)
+        console.log("going in...")
+
+        // This will set l to one over the last index of the color block array.
+        // The math.random() function, when 'floored', will produce an integer that is never out of bounds
+        // This allows for the declaration below to NOT need a '-1' to be added to the end.
+        let l = colorBlocksRandom.length;
+
+        while(l>0 && m>0 ) {
+            let i = Math.floor(Math.random() * l--)
+            m--;
+
+            let t = colorBlocksRandom[l]
+            colorBlocksRandom[l] = colorBlocksRandom[i]
+            colorBlocksRandom[i] = t
+        }
+        console.log("Length: " +  colorBlocksRandom.length)
+        console.log("l = "+ l)
+        console.log("m = " + m)
+
+        colorBlocksRandom = colorBlocksRandom.splice(m ,colorBlocksRandom.length)
+        console.log("Finished Getting Random Blocks with length = " + colorBlocksRandom.length)
+        res.json(colorBlocksRandom)
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message })
     }
 })

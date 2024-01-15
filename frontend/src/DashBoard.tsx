@@ -32,7 +32,7 @@ function getColorBlocks (numBlocks: number) {
     return retColorBlocks;
 }
 
-export default function DashBoard( {numBlocks='100', randomized='random'}) {
+export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
     // We can make 1 server call only here.
     // Static Calls
@@ -44,13 +44,16 @@ export default function DashBoard( {numBlocks='100', randomized='random'}) {
     const [currentColorBlocks, setCurrentColorBlocks] = useState(preLoad);
     const params = useParams();
     console.log("params.numBlocks: " + params.numBlocks)
+    console.log("randomized?: " + randomOrFirst)
     if(params.numBlocks!=null) {
         numBlocks = params.numBlocks;
     }
 
     useEffect(() => {
         console.log("calling api")
-        fetch(APIURL + `/number/${randomized}/${numBlocks}`)
+        const finalURL = APIURL + `/number/${randomOrFirst}/${numBlocks}`
+        console.log("finalURL: " + finalURL)
+        fetch(finalURL)
         .then(response => response.json())
         .then(data => 
             setCurrentColorBlocks(data)
@@ -60,7 +63,7 @@ export default function DashBoard( {numBlocks='100', randomized='random'}) {
                 console.error(error);
             }
         )
-    }, [params.numBlocks]);
+    }, [params.numBlocks, randomOrFirst, numBlocks]);
         
 
     async function buttonClick(color: string, cb: IColorBlock) {
