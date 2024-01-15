@@ -28,8 +28,10 @@ router.get('/number/first/:getNumber', async (req, res) => {
 // Get Random x Colors
 router.get('/number/random/:getNumber', async (req, res) => {
     try {
+        // Idea behind this method:
+        // We want to generate a random 
         const colorBlocks = (await ColorBlock.find())
-        const colorBlocksRandom = JSON.parse(JSON.stringify(colorBlocks))
+        let colorBlocksRandom = JSON.parse(JSON.stringify(colorBlocks))
         console.log("ColorBlocksRandom: "+colorBlocksRandom)
 
         console.log("Generating Random! Random Length: " + req.params.getNumber)
@@ -38,23 +40,25 @@ router.get('/number/random/:getNumber', async (req, res) => {
         console.log(typeof m)
         console.log("going in...")
 
+        // This will set l to one over the last index of the color block array.
+        // The math.random() function, when 'floored', will produce an integer that is never out of bounds
+        // This allows for the declaration below to NOT need a '-1' to be added to the end.
         let l = colorBlocksRandom.length;
 
-        while(l && m>=0 ) {
-            let i = Math.floor(Math.random() * m--)
-            l--;
+        while(l>0 && m>0 ) {
+            let i = Math.floor(Math.random() * l--)
+            m--;
 
-            let t = colorBlocksRandom[m]
-            colorBlocksRandom[m] = colorBlocksRandom[i]
+            let t = colorBlocksRandom[l]
+            colorBlocksRandom[l] = colorBlocksRandom[i]
             colorBlocksRandom[i] = t
         }
-        // console.log("length of colorBlocksRandom: " + colorBlocksRandom[5])
-        let t = colorBlocksRandom[2];
-        console.log("2 Block: " + colorBlocksRandom[2].color)
-        console.log("t: " + t);
-        colorBlocksRandom[2] = colorBlocksRandom[3];
-        colorBlocksRandom[3] = t;
-        console.log("Finished Getting Random Blocks " + colorBlocksRandom)
+        console.log("Length: " +  colorBlocksRandom.length)
+        console.log("l = "+ l)
+        console.log("m = " + m)
+
+        colorBlocksRandom = colorBlocksRandom.splice(m ,colorBlocksRandom.length)
+        console.log("Finished Getting Random Blocks with length = " + colorBlocksRandom.length)
         res.json(colorBlocksRandom)
     } catch (error) {
         console.log(error);
