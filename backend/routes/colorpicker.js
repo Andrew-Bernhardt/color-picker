@@ -38,13 +38,40 @@ router.get('/number/top-colors/all', async (req, res) => {
         res.status(500).json({message: error})
     }
 })
+// Get Top Colors - BY NUMBER
+// Sorted each time this is called - could cause problems for bigger numbers
+router.get('/number/top-colors/:number', async (req, res) => {
+    try {
+        let colorBlocks = (await ColorBlock.find())
+        colorBlocks = colorBlocks.sort((a, b) => (a.votes > b.votes ? -1: 1)).splice(0,req.params.number)
+        console.log(req.params.number)
+        res.json(colorBlocks)
 
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
 // Get Bottom Colors - ALL of them 
 // Sorted each time this is called - could cause problems for bigger numbers
 router.get('/number/bottom-colors/all', async (req, res) => {
     try {
         const colorBlocks = (await ColorBlock.find())
         colorBlocks.sort((a, b) => (a.votes > b.votes ? 1: -1))
+        res.json(colorBlocks)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
+// Get Top Colors - BY NUMBER
+// Sorted each time this is called - could cause problems for bigger numbers
+router.get('/number/bottom-colors/:number', async (req, res) => {
+    try {
+        let colorBlocks = (await ColorBlock.find())
+        colorBlocks = colorBlocks.sort((a, b) => (a.votes > b.votes ? 1: -1)).splice(0,req.params.number)
+        console.log(req.params.number)
         res.json(colorBlocks)
 
     } catch (error) {
@@ -86,7 +113,7 @@ router.get('/number/random/:getNumber', async (req, res) => {
         console.log("l = "+ l)
         console.log("m = " + m)
 
-        colorBlocksRandom = colorBlocksRandom.splice(m ,colorBlocksRandom.length)
+        colorBlocksRandom = colorBlocksRandom.splice(m, colorBlocksRandom.length)
         console.log("Finished Getting Random Blocks with length = " + colorBlocksRandom.length)
         res.json(colorBlocksRandom)
     } catch (error) {

@@ -61,6 +61,7 @@ body {
 }
 .color-body {
 	// margin: 5px;
+	font-size: 1rem;
 	border: 1px solid grey;
 	border-radius: 20%;
 	width: var(--lg-colorblock-size);
@@ -105,8 +106,6 @@ body {
 }
 
 .flame-animation {
-
-
 	margin: auto;
 	display: flex;
 	flex-wrap: nowrap;
