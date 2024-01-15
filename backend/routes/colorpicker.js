@@ -25,11 +25,40 @@ router.get('/number/first/:getNumber', async (req, res) => {
     }
 })
 
+// Get Top Colors - ALL of them 
+// Sorted each time this is called - could cause problems for bigger numbers
+router.get('/number/top-colors/all', async (req, res) => {
+    try {
+        const colorBlocks = (await ColorBlock.find())
+        colorBlocks.sort((a, b) => (a.votes > b.votes ? -1: 1))
+        res.json(colorBlocks)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
+
+// Get Bottom Colors - ALL of them 
+// Sorted each time this is called - could cause problems for bigger numbers
+router.get('/number/bottom-colors/all', async (req, res) => {
+    try {
+        const colorBlocks = (await ColorBlock.find())
+        colorBlocks.sort((a, b) => (a.votes > b.votes ? 1: -1))
+        res.json(colorBlocks)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: error})
+    }
+})
+
 // Get Random x Colors
 router.get('/number/random/:getNumber', async (req, res) => {
     try {
         // Idea behind this method:
-        // We want to generate a random 
+        // We want to generate a random arrangement of the colorblocks in our system. 
+        // The best way to generate a random assortment is by using the Fisher-Yates Shuffle Algorithm
         const colorBlocks = (await ColorBlock.find())
         let colorBlocksRandom = JSON.parse(JSON.stringify(colorBlocks))
         console.log("ColorBlocksRandom: "+colorBlocksRandom)
