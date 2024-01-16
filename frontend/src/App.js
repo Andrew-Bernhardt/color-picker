@@ -20,7 +20,7 @@ function App() {
         <Route path='/bottom-colors/:numBlocks' element={ <DashBoard randomOrFirst='bottom-colors'/> }/>
         <Route path='/bottom-colors' element={ <DashBoard randomOrFirst='bottom-colors' numBlocks='all'/> }/>
       </Routes>
-      <Navigate to="/" />
+      {/* <Navigate to="/" /> */}
     </BrowserRouter>
   );
 }
