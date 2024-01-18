@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function LeaderBoard( {colorBlocks, children} ) {
-  console.log("Reloading Leaderboard\n")
+export default function LeaderBoard( {colorBlocks, children, absolute=""} ) {
+  console.log("Reloading Leaderboard BELOW vvvv \n")
   console.log(colorBlocks)
   var colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
   colorBlocksCopy.sort((a, b) => (a.votes > b.votes ? -1: 1))
@@ -12,7 +12,8 @@ export default function LeaderBoard( {colorBlocks, children} ) {
   
   return (
     <div className="leaderboard-flex">
-      <h2>{children} LeaderBoard</h2>
+      <h2>{children}</h2> 
+      <h2>LeaderBoard</h2>
       <div className="flame-animation">
         {flames.map((flame, i) => 
           <div key={i} className="flame" style={{backgroundColor: topColor}}></div>)

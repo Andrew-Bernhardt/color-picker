@@ -81,6 +81,7 @@ body {
 	}
 	
 }
+
 .leaderboard-flex {
 	position: -webkit-sticky;
 	position: sticky;
@@ -90,8 +91,10 @@ body {
 	border: 1px solid pink;
 	background: white;
 	padding: 5px;
-	margin-left: 0;
-	// filter: contrast(8)
+	margin-top: 12px;
+	margin-left: auto;
+	justify-self: flex-end;
+
 	h2 {
 		text-align: center;
 		margin: auto;
@@ -104,6 +107,44 @@ body {
 		border-radius: 10px;
 	}
 }
+
+.block-battle {
+	display: flex;
+	position: absolute;
+    top: 50%;  
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.big-block {
+	$dimensions: 15em;
+
+	border: 2px solid black;
+	border-radius: 20%;
+	font-size: 1rem;
+	height: $dimensions;
+	width: $dimensions;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+
+	h2 {
+		$borderRadiusMargin: 15px;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		margin: $borderRadiusMargin $borderRadiusMargin 0px 0px;
+	}
+}
+.block-position-0 {
+	rotate: (-10deg);
+}
+.block-position-1 {
+	rotate: (10deg);
+}
+
+
 
 .flame-animation {
 	margin: auto;

@@ -14,7 +14,7 @@ export interface IColorBlock {
     __v: string
 }
 
-const preLoad: Array<IColorBlock> = [{
+export const preLoad: Array<IColorBlock> = [{
     _id: 0,
     color: '',
     votes: 0,
