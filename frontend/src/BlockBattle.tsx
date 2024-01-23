@@ -30,7 +30,7 @@ export default function BlockBattle() {
     // Get 2 Colorblocks
     useEffect(() => {
         console.log("Getting 2 colorblocks")
-        const finalURL = APIURL + `/number/random/2`
+        const finalURL = APIURL + `/number/random/4`
         console.log("finalURL: " + finalURL)
         fetch(finalURL)
         .then(response => response.json())
@@ -121,9 +121,10 @@ export default function BlockBattle() {
                 <div className="block-battle">
                     {
                         blockBattle.map((cb, index) => 
-                            // <>
-                                <BigBlock key={cb.color} cb={cb} buttonClick={buttonClick} blockPosition={'block-position-'+index}/>
-                            // </>
+                            <>
+                                
+                                <BigBlock key={cb.color} cb={cb} buttonClick={buttonClick} blockPosition={'block-position-'+index%2}/>
+                            </>
                         )
                     }
                 </div>
