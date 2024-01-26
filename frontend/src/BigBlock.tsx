@@ -8,7 +8,7 @@ export default function BigBlock( {cb, buttonClick, blockPosition} ) {
   // const [bigBlockState, setBigBlockState] = useState(cb.votes);
 
   return (
-    <button className={`big-block ${blockPosition}`} 
+    <button className={`big-block block-position-${blockPosition%2} block`}
     style={{backgroundColor: '#'+cb.color}} 
     onClick={() => {
         buttonClick(cb.color, cb); 

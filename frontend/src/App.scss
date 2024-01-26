@@ -123,8 +123,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	user-select: none;
-
+	user-select: none; 
 	h2 {
 		$borderRadiusMargin: 15px;
 		position: absolute;
@@ -132,14 +131,22 @@ body {
 		right: 0px;
 		margin: $borderRadiusMargin $borderRadiusMargin 0px 0px;
 	}
+	&:hover {
+		transition: cubic-bezier(.09,.76,.22,.89) 800ms;
+	}
+	
 }
+
 .block-position-0 {
 	position: absolute;
     top: 50%;  
     left: 50%; 
     transform: translate(-90%, -60%);
 	rotate: (-10deg);
-	
+	&:hover {
+		transform: translate(-95%, -65%);
+		rotate: (-12deg);
+	}
 }
 .block-position-1 {
 	position: absolute;
@@ -147,6 +154,10 @@ body {
     left: 50%; 
     transform: translate(-10%, -42%);
 	rotate: (10deg);
+	&:hover {
+		transform: translate(-5%, -47%);
+		rotate: (12deg);
+	}
 }
 
 
