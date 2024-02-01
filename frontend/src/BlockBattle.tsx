@@ -27,10 +27,12 @@ export default function BlockBattle() {
     const params = useParams();
     // let lastBlockInLeaderboard = emptyColorBlock;
 
-    // Get 2 Colorblocks
+
+    // Put Both INITIAL Calls into one block
+    // Get 3 Colorblocks to use in the project. The 3rd one replaces the 1st or 2nd that loses. The 3rd one then gets refreshed.
     useEffect(() => {
         console.log("Getting 2 colorblocks")
-        const finalURL = APIURL + `/number/random/2`
+        const finalURL = APIURL + `/number/random/3`
         console.log("finalURL: " + finalURL)
         fetch(finalURL)
         .then(response => response.json())
@@ -66,6 +68,26 @@ export default function BlockBattle() {
         )
     }, []);
 
+    async function getSingleRandomBlock () {
+        console.log("getSingleRandomBlock")
+        var newBlock: IColorBlock = {
+            _id: 0,
+            color: '#FF',
+            votes: -15,
+            __v: '0'
+        }
+        const getNewBlock = APIURL + `/number/random/1`
+        await fetch(getNewBlock)
+        .then(res => res.json())
+        .then(block => 
+            {
+                console.log("IN THEN METHOD: " + JSON.stringify(block))
+                newBlock = block;
+            }
+        )
+        console.log("NEW BLOCK: " + JSON.stringify(newBlock));
+        return newBlock;
+    }
 
     // When a block is voted for, it will call this method.
     // When a block is voted for, it needs to:
@@ -74,15 +96,26 @@ export default function BlockBattle() {
     // 3. call the api to increment on the back end
     // 4. if that block then becomes in the top 15 blocks, we need to REFRESH the leaderboard api
     //      We can do that by
+    // 5. Kick out the losing block
     async function buttonClick(color: string, cb: IColorBlock, losingIndex: number) {
 
-        // Keep Winner
+        console.log("Button Clicked!")
+        // Keep Winner - Kick Out Loser
+        const newBlock = await getSingleRandomBlock()
 
         // Set Block State
-        const temp_state = [...blockBattle];
+        const temp_state = [...blockBattle]
+        
+        console.log("BEFORE UPDATE: " + JSON.stringify(temp_state))
         const pos = temp_state.findIndex((x) => x.color===color );
         temp_state[pos].votes = temp_state[pos].votes + 1;
+        console.log("LOSING INDEX: " + losingIndex)
+        console.log("Replacing with new block " + JSON.stringify(temp_state[2]))
+        temp_state[losingIndex] = temp_state[2]
+        temp_state[2] = newBlock;
+        console.log("Setting block battle: " + JSON.stringify(temp_state));
         setBlockBattle(temp_state);
+        
 
         // Update Leaderboard if the block is on the leaderboard
         const temp_leaderboard = [...allTimeColorBlocks]
@@ -103,9 +136,9 @@ export default function BlockBattle() {
         // If the block that is just clicked is high enough to join the leaderboard, add it to
         // the leaderboard and rerender the state of the leaderboard.
 
-        console.log("CURRENT VOTES: " + temp_state[pos].votes) 
-        console.log("SMALLEST BLOCK: " + lastBlockInLeaderboard.votes)
-        console.log ("LAST BLOCKKKK: " + JSON.stringify(lastBlockInLeaderboard))
+        // console.log("CURRENT VOTES: " + temp_state[pos].votes) 
+        // console.log("SMALLEST BLOCK: " + lastBlockInLeaderboard.votes)
+        // console.log("LAST BLOCKKKK: " + JSON.stringify(lastBlockInLeaderboard))
         
         // An overtake is happening, the block is now on the leaderboard
         if(cb.votes == lastBlockInLeaderboard.votes) {
@@ -116,20 +149,21 @@ export default function BlockBattle() {
             setAllTimeColorBlocks(temp_leaderboard)
             setLastBlockInLeaderboard(temp_leaderboard[temp_leaderboard.length-1])
         }
-        
+        setBlockBattle(temp_state);
     }
-
 
     return (
         <>
             <Navbar />
             <div className="app-container-flex ">
-                <div className="block-battle">
+                <div key={1} className="block-battle">
                     {
-                        blockBattle.map((cb, index) => 
-                            <>
-                                <BigBlock key={cb.color} cb={cb} buttonClick={buttonClick} blockPosition={index}/>
-                            </>
+                        
+                        blockBattle.slice(0,2).map((_cb, index) => 
+                            
+                                // {console.log("RENDERING\n" + JSON.stringify(blockBattle))}
+                                <BigBlock key={_cb.color} cb={_cb} buttonClick={buttonClick} blockPosition={index}/>           
+                            
                         )
                     }
                 </div>

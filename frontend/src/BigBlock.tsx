@@ -11,7 +11,7 @@ export default function BigBlock( {cb, buttonClick, blockPosition} ) {
     <button className={`big-block block-position-${blockPosition%2} block`}
     style={{backgroundColor: '#'+cb.color}} 
     onClick={() => {
-        buttonClick(cb.color, cb); 
+        buttonClick(cb.color, cb, 1-blockPosition); 
       } }>
         <h1>#{cb.color}</h1>
         <h2>{cb.votes}</h2>
