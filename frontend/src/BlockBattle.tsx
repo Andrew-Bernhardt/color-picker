@@ -2,17 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar.tsx'
 import ColorBlock from './ColorBlock.tsx'
 import LeaderBoard from './LeaderBoard.tsx'
-import { IColorBlock, preLoad } from './DashBoard.tsx'
+import { IColorBlock, emptyColorBlock, preLoad } from './model/ColorBlock.ts'
 import { APIURL } from './GlobalVariables.js'
 import { useParams } from 'react-router'
 import BigBlock from './BigBlock.tsx'
 
-const emptyColorBlock: IColorBlock = {
-    _id: 0,
-    color: '#FF',
-    votes: 12,
-    __v: '0'
-}
 
 export default function BlockBattle() {
 
@@ -71,12 +65,7 @@ export default function BlockBattle() {
 
     async function getSingleRandomBlock () {
         console.log("getSingleRandomBlock")
-        var newBlock: IColorBlock = {
-            _id: 0,
-            color: '#FF',
-            votes: -15,
-            __v: '0'
-        }
+        var newBlock: IColorBlock = emptyColorBlock;
         const getNewBlock = APIURL + `/number/random/1`
         await fetch(getNewBlock)
         .then(res => res.json())

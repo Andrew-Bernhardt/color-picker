@@ -23,7 +23,7 @@ export default function LeaderBoard( {colorBlocks, children, absolute=""} ) {
         <li className="leaderboard-item top-block" style={{backgroundColor: topColor, color: topColor}}> yo</li>
         {
           colorBlocksCopy.map((cb)=> 
-            <li key={cb.color} className="leaderboard-item" style={{backgroundColor: "#"+cb.color }}>
+            <li key={cb.color} className="leaderboard-item" style={{backgroundColor: "#"+cb.color, color: cb.isBlackFont ? 'black' : 'white' }}>
               #{cb.color} : {cb.votes}
             </li>
           )

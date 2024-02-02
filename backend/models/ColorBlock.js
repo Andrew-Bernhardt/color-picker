@@ -9,6 +9,11 @@ const colorSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    isBlackFont: {
+        type: Boolean,
+        required: true,
+        default: true
     }
 })
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const ColorBlock = require('../models/ColorBlock')
+const { readJsonConfigFile } = require('typescript')
 
 // Make sure we put static routes over dynamic routes
 // numbers/new should be above numbers/:color (because ':color' will match 'new' technically )
@@ -218,6 +219,49 @@ router.delete('/self/destruct/this/joint', async (req, res) => {
     await ColorBlock.deleteMany({})
     res.json({message: "you killed all the younglings..."})
 })
+
+// Update Font Color
+router.put('/update/fontcolor', async (req, res) => {
+
+    const setBlack = {
+        $set: {
+            isBlackFont: true
+        }
+    }
+    const setWhite = {
+        $set: {
+            isBlackFont: false
+        }
+    }
+    // Set them all to black to start
+    const setToBlack = await ColorBlock.updateMany({}, setBlack)
+    // console.log(setToBlack.modifiedCount + " changed to black font")
+
+    const resultTotal = await ColorBlock.find({})
+    // console.log(resultTotal.length + " Total Blocks Found");
+
+    resultTotal.forEach(async col => {
+        if(!wc_hex_is_light(col.color)) {
+            await ColorBlock.updateOne({color: col.color}, setWhite)
+            console.log(col.color + " set to white font.")
+        } else {
+            console.log(col.color)
+        }
+    });
+
+    res.json({message: "you updated the colors!"})
+
+
+})
+
+function wc_hex_is_light(color) {
+    const hex = color;
+    const c_r = parseInt(hex.substring(0, 0 + 2), 16);
+    const c_g = parseInt(hex.substring(2, 2 + 2), 16);
+    const c_b = parseInt(hex.substring(4, 4 + 2), 16);
+    const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+    return brightness > 155;
+}
 
 
 
