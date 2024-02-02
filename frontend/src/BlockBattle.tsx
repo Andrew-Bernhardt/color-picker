@@ -106,8 +106,7 @@ export default function BlockBattle() {
         const newBlock = await getSingleRandomBlock()
 
         // Set Block State
-        const temp_state = JSON.parse(JSON.stringify(blockBattle));
-
+        const temp_state = [...blockBattle];
         
         console.log("BEFORE UPDATE: " + JSON.stringify(temp_state))
         const pos = temp_state.findIndex((x) => x.color===color );
@@ -120,6 +119,14 @@ export default function BlockBattle() {
         console.log(temp_state)
         setBlockBattle(temp_state);
         
+        // Increment the block to the API
+        fetch(APIURL + '/color/increment/'+cb.color , {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then(response => response.json())
 
         // Update Leaderboard if the block is on the leaderboard
         const temp_leaderboard = [...allTimeColorBlocks]
@@ -129,26 +136,19 @@ export default function BlockBattle() {
             setAllTimeColorBlocks(temp_leaderboard)
         }
 
-        // Increment the block to the API
-        fetch(APIURL + '/color/increment/'+cb.color , {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
-        .then(response => response.json())
+        
         // If the block that is just clicked is high enough to join the leaderboard, add it to
         // the leaderboard and rerender the state of the leaderboard.
 
-        // console.log("CURRENT VOTES: " + temp_state[pos].votes) 
-        // console.log("SMALLEST BLOCK: " + lastBlockInLeaderboard.votes)
-        // console.log("LAST BLOCKKKK: " + JSON.stringify(lastBlockInLeaderboard))
+        console.log("CURRENT VOTES: " + temp_state[pos].votes) 
+        console.log("SMALLEST BLOCK: " + lastBlockInLeaderboard.votes)
+        console.log("LAST BLOCKKKK: " + JSON.stringify(lastBlockInLeaderboard))
         
         // An overtake is happening, the block is now on the leaderboard
-        if(cb.votes == lastBlockInLeaderboard.votes) {
+        if(temp_state[pos].votes == lastBlockInLeaderboard.votes) {
             console.log("SWITCHING OUT LAST IN LEADERBOARD")
             let temp_leaderboard = [...allTimeColorBlocks]
-            temp_leaderboard[temp_leaderboard.length-1] = cb
+            temp_leaderboard[temp_leaderboard.length-1] = temp_state[pos]
             temp_leaderboard.sort((a, b) => (a.votes > b.votes ? -1: 1))
             setAllTimeColorBlocks(temp_leaderboard)
             setLastBlockInLeaderboard(temp_leaderboard[temp_leaderboard.length-1])
