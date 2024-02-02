@@ -17,7 +17,7 @@ const emptyColorBlock: IColorBlock = {
 export default function BlockBattle() {
 
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(preLoad);
-    const [blockBattle, setBlockBattle] = useState(preLoad);
+    const [blockBattle, setBlockBattle] = useState<IColorBlock[]>([]);
     const [lastBlockInLeaderboard, setLastBlockInLeaderboard] = useState({
         _id: 0,
         color: '#FF',
@@ -38,6 +38,7 @@ export default function BlockBattle() {
         .then(response => response.json())
         .then(blocks => 
             {
+                console.log("3 INITIAL " + JSON.stringify(blocks));
                 setBlockBattle(blocks);
             }
         )
@@ -86,7 +87,8 @@ export default function BlockBattle() {
             }
         )
         console.log("NEW BLOCK: " + JSON.stringify(newBlock));
-        return newBlock;
+        console.log(newBlock[0]);
+        return newBlock[0];
     }
 
     // When a block is voted for, it will call this method.
@@ -104,7 +106,8 @@ export default function BlockBattle() {
         const newBlock = await getSingleRandomBlock()
 
         // Set Block State
-        const temp_state = [...blockBattle]
+        const temp_state = JSON.parse(JSON.stringify(blockBattle));
+
         
         console.log("BEFORE UPDATE: " + JSON.stringify(temp_state))
         const pos = temp_state.findIndex((x) => x.color===color );
@@ -114,6 +117,7 @@ export default function BlockBattle() {
         temp_state[losingIndex] = temp_state[2]
         temp_state[2] = newBlock;
         console.log("Setting block battle: " + JSON.stringify(temp_state));
+        console.log(temp_state)
         setBlockBattle(temp_state);
         
 
@@ -149,21 +153,23 @@ export default function BlockBattle() {
             setAllTimeColorBlocks(temp_leaderboard)
             setLastBlockInLeaderboard(temp_leaderboard[temp_leaderboard.length-1])
         }
-        setBlockBattle(temp_state);
+        // setBlockBattle([...temp_state]);
     }
 
     return (
+        
         <>
             <Navbar />
             <div className="app-container-flex ">
-                <div key={1} className="block-battle">
+                <div className="block-battle">
                     {
-                        
                         blockBattle.slice(0,2).map((_cb, index) => 
-                            
-                                // {console.log("RENDERING\n" + JSON.stringify(blockBattle))}
-                                <BigBlock key={_cb.color} cb={_cb} buttonClick={buttonClick} blockPosition={index}/>           
-                            
+                                <BigBlock 
+                                    key={_cb._id} 
+                                    cb={_cb} 
+                                    buttonClick={buttonClick} 
+                                    blockPosition={index}
+                                />           
                         )
                     }
                 </div>
