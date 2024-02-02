@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { IColorBlock } from './DashBoard';
 
 export default function BigBlock( {cb, buttonClick, blockPosition} ) {
   // This is used to store the state on the screen, since there is no big array holding all the blocks 
@@ -7,9 +6,11 @@ export default function BigBlock( {cb, buttonClick, blockPosition} ) {
   // their state independently (don't worry, the api is still incrementing them each click to the server
   // const [bigBlockState, setBigBlockState] = useState(cb.votes);
 
+  const isBlackFont = cb.isBlackFont;
+
   return (
     <button className={`big-block block-position-${blockPosition%2} block`}
-      style={{backgroundColor: '#'+cb.color}} 
+      style={{backgroundColor: '#'+cb.color, color: isBlackFont ? 'black' : 'white'}} 
       onClick={() => {
           console.log("clicking BIG BUTTON")
           buttonClick(cb.color, cb, 1-blockPosition); 

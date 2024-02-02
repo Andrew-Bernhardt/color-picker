@@ -4,33 +4,21 @@ import LeaderBoard from './LeaderBoard.tsx';
 import { APIURL } from './GlobalVariables.js'
 import Navbar from './Navbar.tsx';
 import { useParams } from 'react-router-dom';
+import { IColorBlock, preLoad } from './model/ColorBlock.ts';
 
 // import IColorBlock from './model/ColorBlock.ts';
 
-export interface IColorBlock {
-    _id: number
-    color: string
-    votes: number
-    __v: string
-}
 
-export const preLoad: Array<IColorBlock> = [{
-    _id: 0,
-    color: '',
-    votes: 0,
-    __v: ''
-}]
-
-function getColorBlocks (numBlocks: number) {
-    let lastColor = "";
-    const retColorBlocks: IColorBlock[] = [];
-    for(let i=0;i<numBlocks;i++) {
-        const colorObj =  { _id: i, color: (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0, __v: ''}
-        retColorBlocks.push(colorObj);
-        lastColor = (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
-    }
-    return retColorBlocks;
-}
+// function getColorBlocks (numBlocks: number) {
+//     let lastColor = "";
+//     const retColorBlocks: IColorBlock[] = [];
+//     for(let i=0;i<numBlocks;i++) {
+//         const colorObj =  { _id: i, color: (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6), votes : 0, __v: ''}
+//         retColorBlocks.push(colorObj);
+//         lastColor = (0x1000000+Math.random()*0xffffff).toString(16).substr(1,6);
+//     }
+//     return retColorBlocks;
+// }
 
 export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
@@ -90,7 +78,7 @@ export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
             <div className="color-block-container">
                 {
                     currentColorBlocks.map((cb) => 
-                        <ColorBlock key={cb.color} _id={cb._id} color={cb.color} votes={cb.votes} __v={cb.__v} colorBlock={cb} onClick={buttonClick}/>
+                        <ColorBlock key={cb.color} _id={cb._id} color={cb.color} votes={cb.votes} __v={cb.__v} isBlackFont={cb.isBlackFont} colorBlock={cb} onClick={buttonClick}/>
                     )
                 }
             </div>
