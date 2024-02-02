@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 import DashBoard from './DashBoard.tsx';
 import Navbar from './Navbar.tsx';
 import { BrowserRouter, Routes, Route, Redirect, Navigate } from 'react-router-dom';
+import BlockBattle from './BlockBattle.tsx';
 
 function App() {
   return ( 
     <BrowserRouter>
       <Routes>
-        <Route index element={ <DashBoard/> }/>
+        <Route index element={ <BlockBattle/> } />
         <Route path='/top-colors/:numBlocks' element={ <DashBoard randomOrFirst='top-colors'/> }/>
         <Route path='/top-colors' element={ <DashBoard randomOrFirst='top-colors' numBlocks='all'/> }/>
         <Route path='/random/:numBlocks' element={ <DashBoard/> }/>

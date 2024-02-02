@@ -113,7 +113,7 @@ router.get('/number/random/:getNumber', async (req, res) => {
         console.log("l = "+ l)
         console.log("m = " + m)
 
-        colorBlocksRandom = colorBlocksRandom.splice(m, colorBlocksRandom.length)
+        colorBlocksRandom = colorBlocksRandom.splice(l, colorBlocksRandom.length)
         console.log("Finished Getting Random Blocks with length = " + colorBlocksRandom.length)
         res.json(colorBlocksRandom)
     } catch (error) {
