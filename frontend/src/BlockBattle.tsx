@@ -12,6 +12,7 @@ export default function BlockBattle() {
 
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(preLoad);
     const [blockBattle, setBlockBattle] = useState<IColorBlock[]>([]);
+    const [winningBlockIndex, setWinningBlockIndex] = useState(0);
     const [lastBlockInLeaderboard, setLastBlockInLeaderboard] = useState({
         _id: 0,
         color: '#FF',
@@ -93,6 +94,7 @@ export default function BlockBattle() {
         console.log("Button Clicked!")
         // Keep Winner - Kick Out Loser
         const newBlock = await getSingleRandomBlock()
+        setWinningBlockIndex(1-losingIndex);
 
         // Set Block State
         const temp_state = [...blockBattle];
@@ -153,11 +155,12 @@ export default function BlockBattle() {
                 <div className="block-battle">
                     {
                         blockBattle.slice(0,2).map((_cb, index) => 
-                                <BigBlock 
+                                <BigBlock
                                     key={_cb._id} 
                                     cb={_cb} 
                                     buttonClick={buttonClick} 
                                     blockPosition={index}
+                                    onTop={index == winningBlockIndex} // This return true if this index is winning
                                 />           
                         )
                     }
