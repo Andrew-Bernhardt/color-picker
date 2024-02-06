@@ -94,7 +94,9 @@ export default function BlockBattle() {
         console.log("Button Clicked!")
         // Keep Winner - Kick Out Loser
         const newBlock = await getSingleRandomBlock()
-        setWinningBlockIndex(1-losingIndex);
+
+        // This sets the z index of the winning block to be higher than the other block
+        setWinningBlockIndex(1-losingIndex); 
 
         // Set Block State
         const temp_state = [...blockBattle];
