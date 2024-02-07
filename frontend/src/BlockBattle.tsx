@@ -19,6 +19,7 @@ export default function BlockBattle() {
         __v: '0'
     });
     const params = useParams();
+    let refresh = false;
     // let lastBlockInLeaderboard = emptyColorBlock;
 
 
@@ -78,6 +79,17 @@ export default function BlockBattle() {
         console.log("NEW BLOCK: " + JSON.stringify(newBlock));
         console.log(newBlock[0]);
         return newBlock[0];
+    }
+
+    const refreshFunction = () => {
+        try {
+            console.error("hello")
+            refresh = !refresh
+            setTimeout(() => console.log("First"), 3000)
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     // When a block is voted for, it will call this method.
@@ -148,7 +160,7 @@ export default function BlockBattle() {
     return (
         
         <>
-            <Navbar />
+            <Navbar refreshPage={refreshFunction}/>
             <div className="app-container-flex ">
                 <div className="block-battle">
                     {

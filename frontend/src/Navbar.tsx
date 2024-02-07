@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import "./App.css"
 
-export default function 
-() {
+export default function (refreshPage) {
   return (
     <div className='nav'>
       <div className="grid-flex">
@@ -12,7 +11,7 @@ export default function
         
       </div>
       <div className="grid-flex title">
-        <h1><Link to="/">Color Picker</Link></h1>
+        <h1><Link to="/" onClick={refreshPage}>Color Picker</Link></h1>
       </div>
       <div className="grid-flex">
         <h3><Link to="/top-colors">Top Colors</Link></h3>
