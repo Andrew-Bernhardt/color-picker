@@ -1,6 +1,8 @@
 import React from 'react'
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 export default function LeaderBoard( {colorBlocks, children, absolute=""} ) {
+  const [animationParent] = useAutoAnimate();
   console.log("Reloading Leaderboard BELOW vvvv \n")
   console.log(colorBlocks)
   var colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
@@ -19,7 +21,7 @@ export default function LeaderBoard( {colorBlocks, children, absolute=""} ) {
           <div key={i} className="flame" style={{backgroundColor: topColor}}></div>)
         }
       </div>
-      <ul> 
+      <ul ref={animationParent}> 
         <li className="leaderboard-item top-block" style={{backgroundColor: topColor, color: topColor}}> yo</li>
         {
           colorBlocksCopy.map((cb)=> 
