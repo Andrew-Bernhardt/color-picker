@@ -92,14 +92,22 @@ export default function BlockBattle() {
     async function buttonClick(color: string, cb: IColorBlock, losingIndex: number) {
 
         console.log("Button Clicked!")
-        // Keep Winner - Kick Out Loser
-        const newBlock = await getSingleRandomBlock()
+        
+        
 
         // This sets the z index of the winning block to be higher than the other block
         setWinningBlockIndex(1-losingIndex); 
 
         // Set Block State
         const temp_state = [...blockBattle];
+
+        // Get a distinct new block
+        let newBlock = await getSingleRandomBlock();
+        while(newBlock.color == temp_state[0].color || newBlock.color == temp_state[1].color) {
+            newBlock = await getSingleRandomBlock();
+        }
+            
+        // Keep Winner - Kick Out Loser
         
         console.log("BEFORE UPDATE: " + JSON.stringify(temp_state))
         const pos = temp_state.findIndex((x) => x.color===color );
@@ -107,11 +115,14 @@ export default function BlockBattle() {
         console.log("LOSING INDEX: " + losingIndex)
         console.log("Replacing with new block " + JSON.stringify(temp_state[2]))
         temp_state[losingIndex] = temp_state[2]
-        temp_state[2] = newBlock;
+        temp_state[2] = newBlock; 
         console.log("Setting block battle: " + JSON.stringify(temp_state));
         console.log(temp_state)
         setBlockBattle(temp_state);
         
+        if(temp_state[0]==temp_state[1])
+            console.error("SAME BLOCKS")
+
         // Increment the block to the API
         fetch(APIURL + '/color/increment/'+cb.color , {
             method: "PATCH",
