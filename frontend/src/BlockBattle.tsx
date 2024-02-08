@@ -120,29 +120,30 @@ export default function BlockBattle() {
         // Update Leaderboard if the block is on the leaderboard
         const temp_leaderboard = [...allTimeColorBlocks]
         const posLeaderboard = temp_leaderboard.findIndex((x) => x.color===color )
+        console.log("color " + color);
+        console.log("posLeaderboard: " + posLeaderboard)
         if(posLeaderboard != -1) {
-            temp_leaderboard[posLeaderboard].votes = temp_leaderboard[posLeaderboard]?.votes + 1
-            setAllTimeColorBlocks(temp_leaderboard)
-        }
-
-        
-        // If the block that is just clicked is high enough to join the leaderboard, add it to
-        // the leaderboard and rerender the state of the leaderboard.
-
-        console.log("CURRENT VOTES: " + temp_state[pos].votes) 
-        console.log("SMALLEST BLOCK: " + lastBlockInLeaderboard.votes)
-        console.log("LAST BLOCKKKK: " + JSON.stringify(lastBlockInLeaderboard))
-        
-        // An overtake is happening, the block is now on the leaderboard
-        if(temp_state[pos].votes == lastBlockInLeaderboard.votes) {
+            temp_leaderboard[posLeaderboard].votes = temp_state[pos].votes
+            temp_leaderboard.sort((a, b) => (a.votes > b.votes ? -1: 1))
+        } else if(temp_state[pos].votes == lastBlockInLeaderboard.votes) {
+            // If the block that is just clicked is high enough to join the leaderboard, add it to
+            // the leaderboard and rerender the state of the leaderboard.
+            console.log("CURRENT VOTES: " + temp_state[pos].votes) 
+            console.log("SMALLEST BLOCK: " + lastBlockInLeaderboard.votes)
+            console.log("LAST BLOCKKKK: " + JSON.stringify(lastBlockInLeaderboard))
             console.log("SWITCHING OUT LAST IN LEADERBOARD")
-            let temp_leaderboard = [...allTimeColorBlocks]
+            console.log("temp_state[pos]:")
+            console.log(temp_state[pos])
             temp_leaderboard[temp_leaderboard.length-1] = temp_state[pos]
             temp_leaderboard.sort((a, b) => (a.votes > b.votes ? -1: 1))
-            setAllTimeColorBlocks(temp_leaderboard)
-            setLastBlockInLeaderboard(temp_leaderboard[temp_leaderboard.length-1])
         }
-        // setBlockBattle([...temp_state]);
+
+       
+
+        
+        // An overtake is happening, the block is now on the leaderboard
+        setLastBlockInLeaderboard(temp_leaderboard[temp_leaderboard.length-1])
+        setAllTimeColorBlocks(temp_leaderboard)
     }
 
     return (
