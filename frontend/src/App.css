@@ -268,6 +268,7 @@ body {
 }
 
 .flame:nth-child(5) {
+  left: 79%;
   left: 6%;
   top: 20px;
   width: 15px;

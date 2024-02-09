@@ -20,7 +20,7 @@ import { IColorBlock, preLoad } from './model/ColorBlock.ts';
 //     return retColorBlocks;
 // }
 
-export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
+export default function DashBoard( {numBlocks='100', randomOrFirst='random'} ) {
     // Make an API call HERE and gather 100 or so randomly generated values. This will save server calls. 
     // We can make 1 server call only here.
     // Static Calls
@@ -30,6 +30,7 @@ export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
     // API Calls
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(null);
     const [currentColorBlocks, setCurrentColorBlocks] = useState(preLoad);
+    const [refreshRandomized, setRefreshRandomized] = useState(false);
     const params = useParams();
     console.log("params.numBlocks: " + params.numBlocks)
     console.log("randomized?: " + randomOrFirst)
@@ -51,8 +52,9 @@ export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
                 console.error(error);
             }
         )
-    }, [params.numBlocks, randomOrFirst, numBlocks]);
+    }, [params.numBlocks, randomOrFirst, numBlocks, refreshRandomized]);
         
+    
 
     async function buttonClick(color: string, cb: IColorBlock) {
         const temp_state = [...currentColorBlocks];
@@ -71,9 +73,14 @@ export default function DashBoard( {numBlocks='100', randomOrFirst='random'}) {
         
     }
 
+    const refreshFunction = () => {
+        setRefreshRandomized(!refreshRandomized)
+        console.log("refreshed: " + refreshRandomized)
+    }
+
     return (
         <>
-        <Navbar />
+        <Navbar refreshRandomized={refreshFunction}/>
         <div className="app-container-flex">
             <div className="color-block-container">
                 {

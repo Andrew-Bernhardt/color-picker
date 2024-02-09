@@ -7,25 +7,30 @@ import { APIURL } from './GlobalVariables.js'
 import { useParams } from 'react-router'
 import BigBlock from './BigBlock.tsx'
 
+function refreshFunction () {
+    console.log("HI");
+}
 
 export default function BlockBattle() {
 
     const [allTimeColorBlocks, setAllTimeColorBlocks] = useState(preLoad);
     const [blockBattle, setBlockBattle] = useState<IColorBlock[]>([]);
     const [winningBlockIndex, setWinningBlockIndex] = useState(0);
+    const [refresh, setRefresh] = useState(false);
     const [lastBlockInLeaderboard, setLastBlockInLeaderboard] = useState({
         _id: 0,
         color: '#FF',
         votes: 12,
         __v: '0'
     });
-    const params = useParams();
+    // let refresh = 0;
     // let lastBlockInLeaderboard = emptyColorBlock;
 
 
     // Put Both INITIAL Calls into one block
     // Get 3 Colorblocks to use in the project. The 3rd one replaces the 1st or 2nd that loses. The 3rd one then gets refreshed.
     useEffect(() => {
+        console.log("refresh: " + refresh)
         console.log("Getting 2 colorblocks")
         const finalURL = APIURL + `/number/random/3`
         console.log("finalURL: " + finalURL)
@@ -42,10 +47,11 @@ export default function BlockBattle() {
                 console.error(error);
             }
         )
-    }, []);
+    }, [refresh]);
 
     //Get LeaderBoard Colors from API
     useEffect(() => {
+        
         console.log("Calling Leaderboard API")
         const finalURL = APIURL + `/number/top-colors/15`
         console.log("finalURL: " + finalURL)
@@ -79,6 +85,11 @@ export default function BlockBattle() {
         console.log("NEW BLOCK: " + JSON.stringify(newBlock));
         console.log(newBlock[0]);
         return newBlock[0];
+    }
+
+    const refreshFunction = () => {
+        setRefresh(!refresh)
+        console.log("refreshed: " + refresh)
     }
 
     // When a block is voted for, it will call this method.
@@ -141,6 +152,7 @@ export default function BlockBattle() {
             temp_leaderboard[posLeaderboard].votes = temp_state[pos].votes
             temp_leaderboard.sort((a, b) => (a.votes > b.votes ? -1: 1))
         } else if(temp_state[pos].votes == lastBlockInLeaderboard.votes) {
+            // An overtake is happening, the block is now on the leaderboard
             // If the block that is just clicked is high enough to join the leaderboard, add it to
             // the leaderboard and rerender the state of the leaderboard.
             console.log("CURRENT VOTES: " + temp_state[pos].votes) 
@@ -152,11 +164,7 @@ export default function BlockBattle() {
             temp_leaderboard[temp_leaderboard.length-1] = temp_state[pos]
             temp_leaderboard.sort((a, b) => (a.votes > b.votes ? -1: 1))
         }
-
-       
-
         
-        // An overtake is happening, the block is now on the leaderboard
         setLastBlockInLeaderboard(temp_leaderboard[temp_leaderboard.length-1])
         setAllTimeColorBlocks(temp_leaderboard)
     }
@@ -164,7 +172,8 @@ export default function BlockBattle() {
     return (
         
         <>
-            <Navbar />
+            <Navbar refreshBlockBattle={refreshFunction} />
+            
             <div className="app-container-flex ">
                 <div className="block-battle">
                     {
