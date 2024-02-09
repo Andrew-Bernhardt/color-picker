@@ -2,7 +2,7 @@ import React from 'react'
 import { useAutoAnimate } from "@formkit/auto-animate/react"
 
 export default function LeaderBoard( {colorBlocks, children, absolute=""} ) {
-  const [animationParent] = useAutoAnimate();
+  const [animationParent] = useAutoAnimate( {duration: 250} );
   console.log("Reloading Leaderboard BELOW vvvv \n")
   console.log(colorBlocks)
   var colorBlocksCopy = JSON.parse(JSON.stringify(colorBlocks))
